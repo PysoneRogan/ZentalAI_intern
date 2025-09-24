@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 243 243 239; /* soft warm gray background */
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background-color: rgb(var(--bg));
+  }
+}
+
+@layer utilities {
+  .container-max {
+    @apply max-w-6xl mx-auto px-4 md:px-6 lg:px-8;
+  }
+}
