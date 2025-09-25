@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "FitTrack",
@@ -8,11 +9,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen text-slate-900">
-        <div className="container-max py-8">
-          {children}
-        </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen text-slate-900 dark:text-slate-100">
+        <ThemeProvider defaultTheme="system" storageKey="fittrack-theme">
+          <div className="container-max py-8">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
