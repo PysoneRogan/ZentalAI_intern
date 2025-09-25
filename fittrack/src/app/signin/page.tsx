@@ -141,7 +141,7 @@ export default function SignInPage() {
           
           <Card.Footer className="text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Do not have an account?{' '}
               <a href="#" className="text-blue-600 hover:text-blue-500 font-medium">
                 Sign up
               </a>

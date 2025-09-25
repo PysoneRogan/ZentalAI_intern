@@ -231,7 +231,7 @@ export default function AddWorkoutPage() {
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="text-sm font-medium text-gray-700 mb-2">Preview:</h3>
                   <div className="flex items-center gap-2">
-                    <Badge color={getWorkoutTypeColor(formData.type) as any}>
+                    <Badge color={getWorkoutTypeColor(formData.type) }>
                       {workoutTypes.find(t => t.value === formData.type)?.label}
                     </Badge>
                     {formData.duration && (
