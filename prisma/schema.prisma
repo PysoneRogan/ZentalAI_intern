@@ -1,0 +1,150 @@
+// This is your Prisma schema file
+// Learn more at https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+// User model for authentication and user management
+model User {
+  id        Int      @id @default(autoincrement())
+  auth0Id   String?  @unique @map("auth0_id") @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  name      String   @db.VarChar(100)
+  picture   String?  @db.VarChar(500)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  workouts    Workout[]
+  plans       Plan[]
+  aiUsageLogs AIUsageLog[]
+
+  // Indexes / Table mapping
+  @@index([email, createdAt], map: "idx_email_created")
+  @@index([name, createdAt], map: "idx_name_created")
+  @@index([auth0Id], map: "idx_auth0_id")
+  @@map("users")
+}
+
+// Workout types (Cardio, Strength, Yoga, etc.)
+model WorkoutType {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique @db.VarChar(50)
+  description String? @db.Text
+  color       String  @default("#3b82f6") @db.VarChar(7) // Hex color code
+
+  // Relations
+  workouts Workout[]
+  planDays PlanDay[]
+
+  @@map("workout_types")
+}
+
+// Individual workout sessions
+model Workout {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @map("user_id")
+  workoutTypeId Int      @map("workout_type_id")
+  durationMin   Int      @map("duration_min")
+  calories      Int?
+  performedAt   DateTime @map("performed_at")
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutType WorkoutType @relation(fields: [workoutTypeId], references: [id])
+
+  // Indexes / Table mapping
+  @@index([userId, performedAt], map: "idx_user_date")
+  @@index([workoutTypeId], map: "idx_workout_type")
+  @@index([userId, workoutTypeId, performedAt], map: "idx_user_type_date")
+  @@index([performedAt, workoutTypeId], map: "idx_date_type")
+  @@index([userId, createdAt], map: "idx_user_created")
+  @@index([durationMin, calories], map: "idx_duration_calories")
+  @@map("workouts")
+}
+
+// Weekly workout plans (for AI Coach feature)
+model Plan {
+  id               Int      @id @default(autoincrement())
+  userId           Int      @map("user_id")
+  title            String   @db.VarChar(200)
+  description      String?  @db.Text
+  weekStart        DateTime @map("week_start") @db.Date
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  // AI-specific fields
+  aiGenerated      Boolean  @default(false) @map("ai_generated")
+  aiPromptData     Json?    @map("ai_prompt_data")
+  aiModelVersion   String?  @db.VarChar(50) @map("ai_model_version")
+  aiGenerationCost Decimal? @db.Decimal(8, 4) @map("ai_generation_cost")
+
+  // Relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planDays PlanDay[]
+
+  // Indexes / Table mapping
+  @@index([userId, weekStart], map: "idx_user_week")
+  @@index([userId, isActive, weekStart], map: "idx_user_active_week")
+  @@index([isActive, createdAt], map: "idx_active_created")
+  @@index([aiGenerated, userId], map: "idx_plans_ai_generated")
+  @@map("plans")
+}
+
+// Daily workout plans within a weekly plan
+model PlanDay {
+  id             Int     @id @default(autoincrement())
+  planId         Int     @map("plan_id")
+  dayOfWeek      Int     @map("day_of_week") // 0 = Sunday, 1 = Monday, etc.
+  workoutTypeId  Int     @map("workout_type_id")
+  targetDuration Int     @map("target_duration") // in minutes
+  targetCalories Int?    @map("target_calories")
+  description    String? @db.Text
+  isCompleted    Boolean @default(false) @map("is_completed")
+
+  // AI-specific exercise data
+  aiExerciseData Json?   @map("ai_exercise_data")
+
+  // Relations
+  plan        Plan        @relation(fields: [planId], references: [id], onDelete: Cascade)
+  workoutType WorkoutType @relation(fields: [workoutTypeId], references: [id])
+
+  // Indexes / Table mapping
+  @@index([planId, dayOfWeek], map: "idx_plan_day")
+  @@index([planId, isCompleted, dayOfWeek], map: "idx_plan_completed_day")
+  @@index([workoutTypeId, isCompleted], map: "idx_type_completed")
+  @@index([planId, workoutTypeId], map: "idx_plan_type")
+  @@map("plan_days")
+}
+
+// AI usage logging for monitoring and cost tracking
+model AIUsageLog {
+  id               Int      @id @default(autoincrement())
+  userId           Int      @map("user_id")
+  requestType      String   @map("request_type") @db.VarChar(50)
+  promptTokens     Int      @map("prompt_tokens")
+  completionTokens Int      @map("completion_tokens")
+  totalTokens      Int      @map("total_tokens")
+  cost             Decimal  @db.Decimal(8, 4)
+  model            String   @db.VarChar(50)
+  success          Boolean
+  errorMessage     String?  @map("error_message") @db.Text
+  requestDuration  Int      @map("request_duration") // milliseconds
+  timestamp        DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, timestamp], map: "idx_ai_usage_user_time")
+  @@index([timestamp], map: "idx_ai_usage_time")
+  @@map("ai_usage_logs")
+}
