@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🏋️ FitTrack – Full Stack Fitness Tracker
 
-## Getting Started
+Completed a 6-week Full Stack Development Training Program focused on end-to-end web application development — covering frontend fundamentals to backend integration using modern frameworks and real-world workflows.
 
-First, run the development server:
+Developed and deployed a Fitness Tracking Web Application (FitTrack) using Next.js, integrating responsive frontend components, backend APIs, and secure database connectivity.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Implemented AI-powered features using the OpenAI API, tested endpoints via Postman, and ensured efficient request handling with robust error management.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Utilized Prisma ORM for database management with MySQL, maintaining a secure and efficient data flow between client and server.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Strengthened hands-on skills in HTML, Tailwind CSS, JavaScript, React, Next.js, and RESTful APIs, while simulating professional workflows through Git version control and collaborative project management.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🧰 Tech Stack
 
-## Learn More
+Frontend: Next.js, React, Tailwind CSS
 
-To learn more about Next.js, take a look at the following resources:
+Backend: Next.js API Routes (Node.js)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Database: Prisma ORM + MySQL
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+APIs & AI Integration: OpenAI API
 
-## Deploy on Vercel
+Testing: Postman
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Version Control: Git + GitHub
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🚀 Highlights
+
+Responsive, dynamic user interface with modular components
+
+Secure authentication integration using Auth0
+
+AI-powered insights for enhanced user experience
+
+Real-world deployment and environment configuration practices
+
+✅ Built during Full Stack Developer Training by Pysone Rogan J
