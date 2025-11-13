@@ -10,6 +10,8 @@ Utilized Prisma ORM for database management with MySQL, maintaining a secure and
 
 Strengthened hands-on skills in HTML, Tailwind CSS, JavaScript, React, Next.js, and RESTful APIs, while simulating professional workflows through Git version control and collaborative project management.
 
+---
+
 🧰 Tech Stack
 
 Frontend: Next.js, React, Tailwind CSS
@@ -24,6 +26,8 @@ Testing: Postman
 
 Version Control: Git + GitHub
 
+---
+
 🚀 Highlights
 
 Responsive, dynamic user interface with modular components
@@ -33,5 +37,7 @@ Secure authentication integration using Auth0
 AI-powered insights for enhanced user experience
 
 Real-world deployment and environment configuration practices
+
+---
 
 ✅ Built during Full Stack Developer Training by Pysone Rogan J
